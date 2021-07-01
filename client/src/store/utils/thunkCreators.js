@@ -103,7 +103,7 @@ export const postMessage = (body) => (dispatch) => {
     //   dispatch(setNewMessage(data.message));
     // }
 
-    // sendMessage(data, body);
+    // sendMessage(data, body); toBeRemoved
 
     saveMessage(body).then(data => {
       if (!body.conversationId) {

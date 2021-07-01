@@ -5,7 +5,7 @@ import moment from "moment";
 
 const Messages = (props) => {
   const { messages, otherUser, userId } = props;
-
+  //added .reverse() to map function, toBeRemoved
   return (
     <Box>
       {messages.map((message) => {
@@ -16,7 +16,7 @@ const Messages = (props) => {
         ) : (
           <OtherUserBubble key={message.id} text={message.text} time={time} otherUser={otherUser} />
         );
-      })}
+      }).reverse()} 
     </Box>
   );
 };
