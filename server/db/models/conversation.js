@@ -22,4 +22,15 @@ Conversation.findConversation = async function (user1Id, user2Id) {
   return conversation;
 };
 
+Conversation.userValidator = async function (userId, conversationId) {
+  const userValidation = await Conversation.findOne({
+    where: {
+      [Op.or]: [{ user1Id: userId }, { user2Id: userId }],
+      id: conversationId
+    }
+  });
+
+  return userValidation;
+}
+
 module.exports = Conversation;
