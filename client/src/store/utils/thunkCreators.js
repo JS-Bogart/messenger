@@ -93,17 +93,14 @@ const sendMessage = (data, body) => {
 
 // message format to send: {recipientId, text, conversationId}
 // conversationId will be set to null if its a brand new conversation
-export const postMessage = (body) => (dispatch) => {
+export const postMessage = (reqBody) => (dispatch) => {
   try {
-    // const data = saveMessage(body);
-
-    // if (!body.conversationId) {
-    //   dispatch(addConversation(body.recipientId, data.message));
-    // } else {
-    //   dispatch(setNewMessage(data.message));
-    // }
-
-    // sendMessage(data, body); toBeRemoved
+    const body = {
+      text: reqBody.text,
+      recipientId: reqBody.props.otherUser.id,
+      conversationId: reqBody.props.conversationId,
+      sender: reqBody.props.conversationId ? null : reqBody.props.user
+    };
 
     saveMessage(body).then(data => {
       if (!body.conversationId) {

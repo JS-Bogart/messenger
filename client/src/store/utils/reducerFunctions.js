@@ -14,7 +14,7 @@ export const addMessageToStore = (state, payload) => {
   return state.map((convo) => {
     if (convo.id === message.conversationId) {
       const convoCopy = { ...convo };
-      convoCopy.messages.unshift(message); //changed push to unshift, toBeRemoved
+      convoCopy.messages.unshift(message);
       convoCopy.latestMessageText = message.text;
 
       return convoCopy;
