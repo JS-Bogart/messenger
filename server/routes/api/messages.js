@@ -10,15 +10,14 @@ router.post("/", async (req, res, next) => {
     }
     const senderId = req.user.id;
     const { recipientId, text, conversationId, sender } = req.body;
-    console.log(req.user);
-    let validUser = await Conversation.userValidator(senderId, conversationId);
+    let isValidUser = await Conversation.isUserInConversation(senderId, conversationId);
 
     // if we already know conversation id, we can save time and just add it to message and return
-    if (conversationId && validUser) {
+    if (conversationId && isValidUser) {
       const message = await Message.create({ senderId, text, conversationId });
       return res.json({ message, sender });
-    } else if (conversationId && !validUser) {
-      return res.sendStatus(401);
+    } else if (conversationId && !isValidUser) {
+      return res.sendStatus(403);
     }
     // if we don't have conversation id, find a conversation to make sure it doesn't already exist
     let conversation = await Conversation.findConversation(
