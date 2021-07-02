@@ -93,24 +93,18 @@ const sendMessage = (data, body) => {
 
 // message format to send: {recipientId, text, conversationId}
 // conversationId will be set to null if its a brand new conversation
-export const postMessage = (reqBody) => (dispatch) => {
+export const postMessage = (body) => async (dispatch) => {
   try {
-    const body = {
-      text: reqBody.text,
-      recipientId: reqBody.props.otherUser.id,
-      conversationId: reqBody.props.conversationId,
-      sender: reqBody.props.conversationId ? null : reqBody.props.user
-    };
+    const data = await saveMessage(body);
 
-    saveMessage(body).then(data => {
-      if (!body.conversationId) {
-        dispatch(addConversation(body.recipientId, data.message));
-      } else {
-        dispatch(setNewMessage(data.message));
-      }
+    if (!body.conversationId) {
+      dispatch(addConversation(body.recipientId, data.message));
+    } else {
+      dispatch(setNewMessage(data.message));
+    }
 
-      sendMessage(data, body);
-    })
+    sendMessage(data, body);
+
   } catch (error) {
     console.error(error);
   }
