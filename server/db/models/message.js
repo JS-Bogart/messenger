@@ -17,14 +17,26 @@ const Message = db.define("message", {
   },
 });
 
-Message.findMessage = async function (messageId) {
-  const message = await Message.findOne({
+// Message.findMessage = async function (messageId) {
+//   const message = await Message.findOne({
+//     where: {
+//       id: messageId
+//     }
+//   });
+
+//   return message;
+// };
+
+Message.findMessages = async function (otherUserId, conversationId) {
+  const messages = await Message.findAll({
     where: {
-      id: messageId
+      senderId: otherUserId,
+      conversationId: conversationId,
+      messageRead: false
     }
   });
 
-  return message;
+  return messages;
 };
 
 module.exports = Message;

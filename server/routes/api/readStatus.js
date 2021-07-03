@@ -1,18 +1,22 @@
 const router = require("express").Router();
-const { Conversation, Message } = require("../../db/models");
+const { Message } = require("../../db/models");
 
 router.post("/", async (req, res, next) => {
   try {
-    if (req.messageId) {
-      const messageId = req.messageId;
-      // const unreadMessage = await Message.findMessage(messageId);
-      const message = await Message.update(
-        { readMessage: true },
-        { where: { _id: messageId } }
+    const conversationId = req.body.conversationId;
+    const otherUserId = req.body.otherUserId; 
+    const unreadMessages = await Message.findMessages(otherUserId, conversationId);
+    
+    unreadMessages.forEach(async (message) => {
+      await message.update(
+        { messageRead: true },
       );
-      return res.json({ message });
-    }
+    });
+    
+    return res.json({ unreadMessages });
   } catch (error) {
     next(error);
   }
 });
+
+module.exports = router;
