@@ -83,6 +83,11 @@ const saveMessage = async (body) => {
   return data;
 };
 
+const updateMessage = async (body) => {
+  const { data } = await axios.post("/api/readStatus", body);
+  return data;
+};
+
 const sendMessage = (data, body) => {
   socket.emit("new-message", {
     message: data.message,

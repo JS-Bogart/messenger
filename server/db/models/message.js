@@ -10,6 +10,21 @@ const Message = db.define("message", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  messageRead: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
 });
+
+Message.findMessage = async function (messageId) {
+  const message = await Message.findOne({
+    where: {
+      id: messageId
+    }
+  });
+
+  return message;
+};
 
 module.exports = Message;
