@@ -122,7 +122,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 
 export const readMessages = (body) => async (dispatch) => {
   try {
-    await axios.post("/api/readStatus", body);
+    await axios.post("/api/readMessages", body);
     dispatch(updateMessage(body.conversationId));
   } catch (error) {
     console.error(error);

@@ -10,29 +10,19 @@ const Message = db.define("message", {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
-  messageRead: {
+  isRead: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
     allowNull: false,
   },
 });
 
-// Message.findMessage = async function (messageId) {
-//   const message = await Message.findOne({
-//     where: {
-//       id: messageId
-//     }
-//   });
-
-//   return message;
-// };
-
 Message.findMessages = async function (otherUserId, conversationId) {
   const messages = await Message.findAll({
     where: {
       senderId: otherUserId,
       conversationId: conversationId,
-      messageRead: false
+      isRead: false
     }
   });
 

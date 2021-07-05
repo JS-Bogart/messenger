@@ -24,11 +24,9 @@ class Chat extends Component {
   handleClick = async (conversation) => {
     await this.props.setActiveChat(conversation.otherUser.username);
     if (conversation.unread > 0) {
-      const body = {
-        conversationId: conversation.id,
-        otherUserId: conversation.otherUser.id
-      }
-      await this.props.readMessages(body);
+      const conversationId = conversation.id;
+      const otherUserId = conversation.otherUser.id;
+      await this.props.readMessages(conversationId, otherUserId);
     }
   };
 
@@ -57,8 +55,8 @@ const mapDispatchToProps = (dispatch) => {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
     },
-    readMessages: (conversation) => {
-      dispatch(readMessages(conversation));
+    readMessages: (conversationId, otherUserId) => {
+      dispatch(readMessages({conversationId, otherUserId}));
     }
   };
 };
