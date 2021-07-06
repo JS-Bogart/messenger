@@ -6,7 +6,14 @@ import {
   addOnlineUser,
 } from "./store/conversations";
 
-const socket = io(window.location.origin);
+const socket = io(window.location.origin, {
+  auth: async (cb) => {
+    const token = await localStorage.getItem("messenger-token")
+    cb({
+      token: token
+    });
+  }
+});
 
 socket.on("connect", () => {
   console.log("connected to server");
@@ -21,6 +28,7 @@ socket.on("connect", () => {
   socket.on("new-message", (data) => {
     store.dispatch(setNewMessage(data.message, data.sender));
   });
+
 });
 
 export default socket;
