@@ -4,10 +4,6 @@ const { Conversation, Message } = require("../../db/models");
 router.patch("/", async (req, res, next) => {
   try {
     const { conversationId, otherUserId} = req.body;
-    const unreadMessages = await Message.findMessages(
-      otherUserId, 
-      conversationId
-    );
     const userId = req.user.id;
     let isValidUser = await Conversation.isUserInConversation(
       userId, 
@@ -15,6 +11,10 @@ router.patch("/", async (req, res, next) => {
     );
 
     if (isValidUser) {
+      const unreadMessages = await Message.findMessages(
+        otherUserId,
+        conversationId
+      );
       unreadMessages.forEach(async (message) => {
         await message.update(
           { isRead: true },
