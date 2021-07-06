@@ -6,13 +6,9 @@ import {
   addOnlineUser,
 } from "./store/conversations";
 
+const token = localStorage.getItem("messenger-token");
 const socket = io(window.location.origin, {
-  auth: async (cb) => {
-    const token = await localStorage.getItem("messenger-token")
-    cb({
-      token: token
-    });
-  }
+  auth: {token: token}
 });
 
 socket.on("connect", () => {
