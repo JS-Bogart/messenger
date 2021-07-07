@@ -60,12 +60,9 @@ io.on("connection", (socket) => {
 
   socket.on("logout", (id) => {
     if (onlineUsers.hasOwnProperty(id)) {
-      console.log(onlineUsers[id]); //removeAfterTesting
       socketIndex = onlineUsers[id].indexOf(socket.id);
       onlineUsers[id].splice(socketIndex, 1);
-      console.log(onlineUsers[id]); //removeAfterTesting
       if (onlineUsers[id].length < 1) {
-        console.log("USER HAS LOGGED OFF") //removeAfterTesting
         delete onlineUsers[id];
         socket.broadcast.emit("remove-offline-user", id);
       }
