@@ -19,7 +19,7 @@ const styles = {
 
 const Input = (props) => {
 
-  let [text, setText] = useState("");
+  const [text, setText] = useState("");
 
   const handleChange = (event) => {
     setText(event.target.value);
