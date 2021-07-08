@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Box } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { withStyles } from "@material-ui/core/styles";
@@ -20,34 +20,32 @@ const styles = {
   },
 };
 
-class Chat extends Component {
-  handleClick = async (conversation) => {
-    await this.props.setActiveChat(conversation.otherUser.username);
+const Chat = (props) => {
+  const handleClick = async (conversation) => {
+    await props.setActiveChat(conversation.otherUser.username);
     if (conversation.unread > 0) {
       const conversationId = conversation.id;
       const otherUserId = conversation.otherUser.id;
-      await this.props.readMessages(conversationId, otherUserId);
+      await props.readMessages(conversationId, otherUserId);
     }
   };
 
-  render() {
-    const { classes } = this.props;
-    const otherUser = this.props.conversation.otherUser;
-    return (
-      <Box
-        onClick={() => this.handleClick(this.props.conversation)}
-        className={classes.root}
-      >
-        <BadgeAvatar
-          photoUrl={otherUser.photoUrl}
-          username={otherUser.username}
-          online={otherUser.online}
-          sidebar={true}
-        />
-        <ChatContent conversation={this.props.conversation} />
-      </Box>
-    );
-  }
+  const { classes } = props;
+  const otherUser = props.conversation.otherUser;
+  return (
+    <Box
+      onClick={() => handleClick(props.conversation)}
+      className={classes.root}
+    >
+      <BadgeAvatar
+        photoUrl={otherUser.photoUrl}
+        username={otherUser.username}
+        online={otherUser.online}
+        sidebar={true}
+      />
+      <ChatContent conversation={props.conversation} />
+    </Box>
+  );
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -56,7 +54,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setActiveChat(id));
     },
     readMessages: (conversationId, otherUserId) => {
-      dispatch(readMessages({conversationId, otherUserId}));
+      dispatch(readMessages({ conversationId, otherUserId }));
     }
   };
 };
