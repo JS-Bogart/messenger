@@ -15,11 +15,11 @@ const styles = {
 };
 
 const Home = (props) => {
-
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const fetchConversations = props.fetchConversations;
 
   useEffect(() => {
-    props.fetchConversations();
+    fetchConversations();
     setIsLoggedIn(true);
   }, [])
 
