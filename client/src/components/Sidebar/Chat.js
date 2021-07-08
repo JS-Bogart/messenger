@@ -23,7 +23,7 @@ const styles = {
 const Chat = (props) => {
   const handleClick = async (conversation) => {
     await props.setActiveChat(conversation.otherUser.username);
-    if (conversation.unread > 0) {
+    if (conversation.unread[props.userId] > 0) {
       const conversationId = conversation.id;
       const otherUserId = conversation.otherUser.id;
       await props.readMessages(conversationId, otherUserId);
@@ -43,7 +43,10 @@ const Chat = (props) => {
         online={otherUser.online}
         sidebar={true}
       />
-      <ChatContent conversation={props.conversation} />
+      <ChatContent 
+        conversation={props.conversation}
+        userId={props.userId} 
+      />
     </Box>
   );
 }
